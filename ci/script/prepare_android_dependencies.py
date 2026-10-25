@@ -241,6 +241,15 @@ def main() -> int:
 
     repository = args.repository.resolve()
     expected = load_expected_checksums(CHECKSUM_FILE)
+    # Check every archive before failing, so one run reports all wrong digests.
+    checksum_errors: list[str] = []
+    for archive_name in PROFILE_ARCHIVES[args.profile]:
+        try:
+            verify_checksum(args.archives / archive_name, expected)
+        except (OSError, ValueError) as error:
+            checksum_errors.append(str(error))
+    if checksum_errors:
+        raise ValueError("\n".join(checksum_errors))
     extracted_files: set[Path] = set()
     for archive_name in PROFILE_ARCHIVES[args.profile]:
         extracted_files.update(extract_archive(args.archives / archive_name, repository, expected))
