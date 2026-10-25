@@ -8,6 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.Rule
 
 /**
  * Protocol-level regression tests for the structured message builder shared by the local-model
@@ -15,6 +16,8 @@ import org.junit.Test
  * opened by the message right before its run. See issue #1027.
  */
 class StructuredToolCallBridgeHistoryTest {
+    @get:Rule
+    val quietLogging = QuietAppLoggingRule()
 
     @Test
     fun `unanswered calls are closed before the trailing tool result text`() {
