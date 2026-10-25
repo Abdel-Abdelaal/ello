@@ -37,3 +37,27 @@ ts的报错catch后需要log出来
 代码的更改应维护相称的文档，注意docs\doc-src\before_docing.md
 debug的时候注释记录你的修改意图（为什么，不这么做后果是什么）
 完成初步计划后，使用docs\TODO\README.md来细化计划
+
+
+## Fleet engineering and AI evidence
+
+Follow the [shared handbook](https://github.com/Abdel-Abdelaal/.github/tree/main/standards)
+for PR titles, pinned actions, credential isolation and advisory AI. Existing
+Android and web checks remain the application verification lanes. These changes
+do not authorize running local application builds or tests.
+
+Shared policy/security checks run on PRs, with scheduled audits and Scorecard.
+Eligible AI reviews and weekly audits retain signed records visible on the
+[fleet dashboard](https://abdel-abdelaal.github.io/github-governance/).
+AI needs the repository AI_API_KEY; generated fix/baseline PRs also need the
+automation App and explicitly skip without it. The next platform release adds
+Kotlin/TypeScript snapshot coverage; v1.7.0 whole-repo snapshots lack those files.
+
+## Glossary
+
+| Name | Meaning |
+|---|---|
+| Ello | This Android assistant application, derived from Operit |
+| web-chat | The repository's browser chat interface |
+| candidate | GitHub's PR merge revision checked by the native PR workflow |
+| telemetry | Signed evidence from the shared advisory AI runner |
