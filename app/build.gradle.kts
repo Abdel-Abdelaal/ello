@@ -394,7 +394,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ai.assistance.operit"
+        applicationId = "io.github.abdel_abdelaal.ello"
         minSdk = 26
         targetSdk = 34
         versionCode = 51
