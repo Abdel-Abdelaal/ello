@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import shutil
 import stat
 import zipfile
@@ -19,6 +20,9 @@ ARCHIVE_ROOTS = {
     "subpack.zip": "app/src/main/assets/subpack",
     "jniLibs.zip": "app/src/main/jniLibs",
 }
+# Pinned SHA-256 digests of the downloaded archives. They come from a third-party
+# Google Drive, so an archive whose digest is missing or different is rejected.
+CHECKSUM_FILE = Path(__file__).resolve().parent.parent / "android-deps.sha256"
 EXCLUDED_ARCHIVE_MEMBERS = {
     "libs.zip": frozenset(
         {
@@ -147,9 +151,36 @@ def extract_member(
     return destination
 
 
-def extract_archive(archive: Path, repository: Path) -> set[Path]:
+def load_expected_checksums(path: Path) -> dict[str, str]:
+    expected: dict[str, str] = {}
+    if not path.is_file():
+        return expected
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        digest, name = line.split(maxsplit=1)
+        expected[name.lstrip("*")] = digest.lower()
+    return expected
+
+
+def verify_checksum(archive: Path, expected: dict[str, str]) -> None:
+    digest = hashlib.sha256()
+    with archive.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    actual = digest.hexdigest()
+    pinned = expected.get(archive.name)
+    if pinned is None:
+        raise ValueError(f"no pinned SHA-256 for {archive.name} in {CHECKSUM_FILE.name}; actual {actual}")
+    if actual != pinned:
+        raise ValueError(f"SHA-256 mismatch for {archive.name}: expected {pinned}, got {actual}")
+
+
+def extract_archive(archive: Path, repository: Path, expected: dict[str, str]) -> set[Path]:
     if not archive.is_file():
         raise FileNotFoundError(f"required Android dependency archive is missing: {archive}")
+    verify_checksum(archive, expected)
     repository = repository.resolve()
     with zipfile.ZipFile(archive) as stream:
         allowed_root = ARCHIVE_ROOTS[archive.name]
@@ -209,9 +240,10 @@ def main() -> int:
     args = parser.parse_args()
 
     repository = args.repository.resolve()
+    expected = load_expected_checksums(CHECKSUM_FILE)
     extracted_files: set[Path] = set()
     for archive_name in PROFILE_ARCHIVES[args.profile]:
-        extracted_files.update(extract_archive(args.archives / archive_name, repository))
+        extracted_files.update(extract_archive(args.archives / archive_name, repository, expected))
     verify_outputs(args.profile, repository, extracted_files)
     print(f"Prepared Android {args.profile} dependencies from {args.archives}.")
     return 0

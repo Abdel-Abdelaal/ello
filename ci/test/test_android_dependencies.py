@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import stat
 import sys
 import tempfile
@@ -13,9 +14,14 @@ sys.path.insert(0, str(REPO_ROOT / "ci" / "script"))
 
 from prepare_android_dependencies import (  # noqa: E402
     extract_archive,
+    load_expected_checksums,
     validate_member,
     verify_outputs,
 )
+
+
+def pinned(archive: Path) -> dict[str, str]:
+    return {archive.name: hashlib.sha256(archive.read_bytes()).hexdigest()}
 
 
 class AndroidDependencyArchiveTest(unittest.TestCase):
@@ -68,7 +74,7 @@ class AndroidDependencyArchiveTest(unittest.TestCase):
                 stream.writestr("app/libs/library.aar", b"library")
 
             with self.assertRaisesRegex(ValueError, "contains a symbolic link"):
-                extract_archive(archive, repository)
+                extract_archive(archive, repository, pinned(archive))
 
     def test_library_verification_uses_current_regular_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -80,10 +86,37 @@ class AndroidDependencyArchiveTest(unittest.TestCase):
                 stream.mkdir("app/libs/fake.jar/")
                 stream.writestr("app/libs/readme.txt", b"not a library")
 
-            extracted = extract_archive(archive, repository)
+            extracted = extract_archive(archive, repository, pinned(archive))
 
             with self.assertRaisesRegex(ValueError, "did not provide"):
                 verify_outputs("jvm", repository, extracted)
+
+    def test_archive_without_pinned_checksum_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            archive = root / "libs.zip"
+            with zipfile.ZipFile(archive, "w") as stream:
+                stream.writestr("app/libs/library.aar", b"library")
+
+            with self.assertRaisesRegex(ValueError, "no pinned SHA-256"):
+                extract_archive(archive, root, {})
+
+    def test_archive_with_wrong_checksum_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            archive = root / "libs.zip"
+            with zipfile.ZipFile(archive, "w") as stream:
+                stream.writestr("app/libs/library.aar", b"library")
+
+            with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
+                extract_archive(archive, root, {"libs.zip": "0" * 64})
+
+    def test_checksum_file_parses_sha256sum_format(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            checksums = Path(directory) / "android-deps.sha256"
+            checksums.write_text("# comment\n" + "AB" * 32 + "  *libs.zip\n", encoding="utf-8")
+
+            self.assertEqual(load_expected_checksums(checksums), {"libs.zip": "ab" * 32})
 
 
 if __name__ == "__main__":

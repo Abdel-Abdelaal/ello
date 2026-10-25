@@ -12,6 +12,7 @@ on:
       - build.gradle.kts
       - ci/script/download_android_dependencies.sh
       - ci/script/prepare_android_dependencies.py
+      - ci/android-deps.sha256
       - cmake/**
       - avator/**
       - examples/**
@@ -106,7 +107,7 @@ jobs:
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: ${{ env.MANUAL_DEPS_DIR }}
-          key: android-full-deps-${{ runner.os }}-${{ hashFiles('ci/script/download_android_dependencies.sh', 'ci/script/prepare_android_dependencies.py') }}
+          key: android-full-deps-${{ runner.os }}-${{ hashFiles('ci/script/download_android_dependencies.sh', 'ci/script/prepare_android_dependencies.py', 'ci/android-deps.sha256') }}
 
       - name: Restore generated STT asset cache
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
