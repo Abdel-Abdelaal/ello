@@ -23,6 +23,39 @@ on:
       - build.gradle.kts
       - ci/script/download_android_dependencies.sh
       - ci/script/prepare_android_dependencies.py
+      - ci/android-deps.sha256
+      - cmake/**
+      - avator/**
+      - examples/**
+      - gradle/**
+      - gradle.properties
+      - gradlew
+      - gradlew.bat
+      - llm/**
+      - package.json
+      - package-lock.json
+      - npm-shrinkwrap.json
+      - pnpm-workspace.yaml
+      - quickjs/**
+      - settings.gradle.kts
+      - showerclient/**
+      - terminal/**
+      - terminal
+      - tools/native_ripgrep/**
+      - tools/packages_whitelist.txt
+      - tools/example_packages/sync_example_packages.py
+      - web-chat/**
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/android-build.yml
+      - .gitmodules
+      - .npmrc
+      - app/**
+      - build.gradle.kts
+      - ci/script/download_android_dependencies.sh
+      - ci/script/prepare_android_dependencies.py
+      - ci/android-deps.sha256
       - cmake/**
       - avator/**
       - examples/**
@@ -131,7 +164,7 @@ jobs:
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: ${{ env.MANUAL_DEPS_DIR }}
-          key: android-full-deps-${{ runner.os }}-${{ hashFiles('ci/script/download_android_dependencies.sh', 'ci/script/prepare_android_dependencies.py') }}
+          key: android-full-deps-${{ runner.os }}-${{ hashFiles('ci/script/download_android_dependencies.sh', 'ci/script/prepare_android_dependencies.py', 'ci/android-deps.sha256') }}
 
       - name: Restore generated STT asset cache
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
@@ -208,7 +241,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$EVENT_NAME" in
-            push) gradle_task=assembleDebug ;;
+            push|pull_request) gradle_task=assembleDebug ;;
             workflow_dispatch) gradle_task="$DISPATCH_GRADLE_TASK" ;;
             *) echo "Unsupported workflow event: $EVENT_NAME" >&2; exit 2 ;;
           esac

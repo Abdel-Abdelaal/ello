@@ -1,0 +1,5 @@
+# SHA-256 of the Android dependency archives that CI downloads from Google Drive.
+# Format: <sha256>  <file name>. CI rejects any archive missing here or not matching.
+1625489c81bb6e3ec6d29d41c39a53cb985e997be474425be01f909a6df887f8  libs.zip
+2953448c93b0e4e51a6434b96b0145af271efdf07bf99a54b24925727c8545ae  subpack.zip
+2e8a4efd78b4b9daf3274ee17ba38eb5f42fb57bf43381b63c55aaa1d3148b53  jniLibs.zip
