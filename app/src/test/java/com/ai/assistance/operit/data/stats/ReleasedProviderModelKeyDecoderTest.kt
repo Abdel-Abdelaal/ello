@@ -3,6 +3,7 @@ package com.ai.assistance.operit.data.stats
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import com.ai.assistance.operit.data.model.FunctionType
 
 class ReleasedProviderModelKeyDecoderTest {
     @Test
@@ -22,7 +23,9 @@ class ReleasedProviderModelKeyDecoderTest {
 
     @Test
     fun `pre provider model function key is skipped`() {
-        assertNull(ReleasedProviderModelKeyDecoder.decodeOrNull("CHAT"))
+        for (function in FunctionType.entries) {
+            assertNull(function.name, ReleasedProviderModelKeyDecoder.decodeOrNull(function.name))
+        }
         assertNull(ReleasedProviderModelKeyDecoder.decodeOrNull("FILE_BINDING"))
     }
 }

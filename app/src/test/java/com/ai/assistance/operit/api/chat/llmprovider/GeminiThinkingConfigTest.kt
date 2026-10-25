@@ -9,9 +9,13 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.Rule
 import org.json.JSONObject
 
 class GeminiThinkingConfigTest {
+    @get:Rule
+    val quietLogging = QuietAppLoggingRule()
+
     private val thinkingConfigurations =
         ModelThinkingConfigDefaults.forProvider(ApiProviderType.GOOGLE.name)
 

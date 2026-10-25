@@ -39,8 +39,7 @@ concurrency:
   group: android-tests-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
+permissions: {}
 
 env:
   PYTHONDONTWRITEBYTECODE: '1'
@@ -53,11 +52,16 @@ env:
 
 jobs:
   tests:
+    permissions:
+      contents: read
     name: Android JVM tests
     runs-on: ubuntu-24.04
     timeout-minutes: 240
 
     steps:
+      - uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
+        with:
+          egress-policy: audit
       - name: Checkout source
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
