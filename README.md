@@ -1,5 +1,10 @@
 # Ello
 
+> **Built on [Operit AI](https://github.com/AAswordman/Operit)** by
+> [AAswordman](https://github.com/AAswordman) and the Operit contributors. Almost all
+> of the code here is theirs, and their full commit history is kept. Ello's own work
+> is the commits after Operit 1.12.2 (`dbf71916`). Thank you to the Operit team.
+
 An AI assistant that runs your Android phone. You tell it what you want, and it
 reads the screen, taps, types and moves between apps to get it done. It also has its
 own pages.
@@ -45,4 +50,5 @@ application ID (`io.github.abdel_abdelaal.ello`) change.
 ## License
 
 [LGPL-3.0](LICENSE), the same as Operit. Copyright in the upstream code stays with
-the Operit authors.
+the Operit authors. Ello's changes are released under the same licence. "Operit" and
+its logo belong to their owners and aren't used for Ello's branding.
