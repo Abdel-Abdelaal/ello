@@ -50,8 +50,8 @@ Shared policy/security checks run on PRs, with scheduled audits and Scorecard.
 Eligible AI reviews and weekly audits retain signed records visible on the
 [fleet dashboard](https://abdel-abdelaal.github.io/github-governance/).
 AI needs the repository AI_API_KEY; generated fix/baseline PRs also need the
-automation App and explicitly skip without it. The next platform release adds
-Kotlin/TypeScript snapshot coverage; v1.7.0 whole-repo snapshots lack those files.
+automation App and explicitly skip without it. Platform v1.8.0 includes bounded Kotlin/TypeScript whole-repo snapshots.
+Omitted/truncated files remain explicit in each record manifest.
 
 ## Glossary
 
