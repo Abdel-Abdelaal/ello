@@ -17,6 +17,10 @@ updates:
     open-pull-requests-limit: 5
   - package-ecosystem: npm
     directory: /
+    ignore:
+      # TypeScript 7 (the native compiler) fails the build; move deliberately.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
     schedule:
       interval: weekly
       day: monday
@@ -29,6 +33,13 @@ updates:
     open-pull-requests-limit: 5
   - package-ecosystem: npm
     directory: /web-chat
+    ignore:
+      # TypeScript 7 (the native compiler) fails the build; move deliberately.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      # plugin-react 6 needs Vite 8; web-chat is on Vite 6.
+      - dependency-name: "@vitejs/plugin-react"
+        versions: [">= 6.0.0"]
     schedule:
       interval: weekly
       day: monday
@@ -41,6 +52,10 @@ updates:
     open-pull-requests-limit: 5
   - package-ecosystem: gradle
     directory: /
+    ignore:
+      # BOM 2026.09+ needs compileSdk 37 and Android Gradle Plugin 9.1.
+      - dependency-name: androidx.compose:compose-bom
+        versions: [">= 2026.09.0"]
     schedule:
       interval: weekly
       day: monday
