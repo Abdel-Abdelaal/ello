@@ -677,6 +677,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    // Material 1.14 no longer brings DocumentFile in transitively.
+    implementation(libs.androidx.documentfile)
     implementation(libs.lifecycle.runtime.ktx)
 
     // Kotlin Serialization
@@ -830,8 +832,8 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.78")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation(libs.okhttp.logging.interceptor)
 
