@@ -11,7 +11,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT / "ci" / "script"))
 
-from check_repo_hygiene import workspace_errors  # noqa: E402
+from check_repo_hygiene import whitespace_errors, workspace_errors  # noqa: E402
 
 
 def git(repository: Path, *args: str) -> str:
@@ -23,6 +23,35 @@ def git(repository: Path, *args: str) -> str:
         text=True,
     )
     return result.stdout.strip()
+
+
+class WhitespaceTest(unittest.TestCase):
+    def test_generated_bundles_are_skipped_and_other_files_still_checked(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory)
+            git(repository, "init")
+            git(repository, "config", "user.name", "CI Test")
+            git(repository, "config", "user.email", "ci@example.com")
+            (repository / "README.md").write_text("base\n", encoding="utf-8")
+            git(repository, "add", ".")
+            git(repository, "commit", "-m", "base")
+            base = git(repository, "rev-parse", "HEAD")
+            bundle = repository / "app/src/main/assets/bridge/spawn-helper.js"
+            bundle.parent.mkdir(parents=True)
+            bundle.write_text("const a = `x   \n`;\n", encoding="utf-8")
+            (repository / "app/Other.kt").write_text("val a = 1   \n", encoding="utf-8")
+            git(repository, "add", ".")
+            git(repository, "commit", "-m", "candidate")
+            candidate = git(repository, "rev-parse", "HEAD")
+
+            previous_directory = Path.cwd()
+            try:
+                os.chdir(repository)
+                errors = whitespace_errors(base, candidate)
+            finally:
+                os.chdir(previous_directory)
+
+            self.assertEqual([error.path for error in errors], ["app/Other.kt"])
 
 
 class WorkspaceStateTest(unittest.TestCase):
