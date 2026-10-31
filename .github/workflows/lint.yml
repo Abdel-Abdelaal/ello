@@ -13,3 +13,6 @@ jobs:
     with:
       # PRs gate the files they change; the weekly sweep reports the backlog.
       full-scan: ${{ github.event_name != 'pull_request' }}
+      # Generated files: the MCP bridge bundles (tools/mcp_bridge, pnpm run build;
+      # its TypeScript source is linted) and package-manager lockfiles.
+      exclude: '(^|/)(app/src/main/assets/bridge/[^/]+\.js|pnpm-lock\.yaml|package-lock\.json)$'
