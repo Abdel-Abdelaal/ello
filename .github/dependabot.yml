@@ -21,6 +21,9 @@ updates:
       # TypeScript 7 (the native compiler) fails the build; move deliberately.
       - dependency-name: typescript
         update-types: [version-update:semver-major]
+      # CI and tooling run Node 22; newer typings would allow APIs it lacks.
+      - dependency-name: "@types/node"
+        versions: [">= 23"]
     schedule:
       interval: weekly
       day: monday
@@ -56,6 +59,12 @@ updates:
       # BOM 2026.09+ needs compileSdk 37 and Android Gradle Plugin 9.1.
       - dependency-name: androidx.compose:compose-bom
         versions: [">= 2026.09.0"]
+      # OkHttp 5 needs compileSdk 37 too (#48).
+      - dependency-name: "com.squareup.okhttp3:*"
+        update-types: [version-update:semver-major]
+      # Kotlin 2.4 fails :app:kaptDebugKotlin; move Kotlin and kapt deliberately.
+      - dependency-name: "org.jetbrains.kotlin*"
+        versions: [">= 2.3.0"]
     schedule:
       interval: weekly
       day: monday
