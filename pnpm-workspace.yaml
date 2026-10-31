@@ -3,3 +3,8 @@ packages:
 
 allowBuilds:
   esbuild: true
+
+# The MCP SDK accepts zod 3 or 4; every zod 3 release is affected by
+# GHSA-mrhx-c7xc-m3w5, so the bridge resolves zod 4.
+overrides:
+  zod: 4.6.7
