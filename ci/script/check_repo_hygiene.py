@@ -14,6 +14,9 @@ from pathlib import Path
 from check_output import Diagnostic, report
 
 DIFF_CHECK_RE = re.compile(r"^(.*?):(\d+): (.*)$")
+# Bundler output (tools/mcp_bridge: pnpm run build). Its whitespace comes from ncc
+# and partly sits inside string literals, so it is never edited by hand.
+GENERATED_PATHS = ("app/src/main/assets/bridge/*.js",)
 
 
 def changed_files(base_sha: str, candidate_sha: str) -> list[Path]:
@@ -36,7 +39,16 @@ def changed_files(base_sha: str, candidate_sha: str) -> list[Path]:
 
 def whitespace_errors(base_sha: str, candidate_sha: str) -> list[Diagnostic]:
     result = subprocess.run(
-        ["git", "diff", "--check", base_sha, candidate_sha],
+        [
+            "git",
+            "diff",
+            "--check",
+            base_sha,
+            candidate_sha,
+            "--",
+            ".",
+            *(f":(exclude,glob){pattern}" for pattern in GENERATED_PATHS),
+        ],
         check=False,
         capture_output=True,
         text=True,

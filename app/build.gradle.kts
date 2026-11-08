@@ -404,7 +404,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        
+
         ndk {
             // Keep native compilation aligned with the app's only supported ABI.
             abiFilters.addAll(listOf("arm64-v8a"))
@@ -485,7 +485,7 @@ android {
         buildConfig = true
     }
     packaging {
-        
+
         jniLibs {
             useLegacyPackaging = true
         }
@@ -495,7 +495,7 @@ android {
             excludes += "LICENSE-EPL-1.0.txt"
             excludes += "/META-INF/LICENSE-EDL-1.0.txt"
             excludes += "LICENSE-EDL-1.0.txt"
-            
+
             // Resolve merge conflicts for document libraries
             excludes += "/META-INF/DEPENDENCIES"
             excludes += "/META-INF/LICENSE"
@@ -510,11 +510,11 @@ android {
             excludes += "/META-INF/*.RSA"
             excludes += "/META-INF/*.kotlin_module"
             excludes += "META-INF/versions/9/module-info.class"
-            
+
             // Fix for duplicate Netty files
             excludes += "META-INF/io.netty.versions.properties"
             excludes += "META-INF/INDEX.LIST"
-            
+
             // Fix for any other potential duplicate files
             pickFirsts += "**/*.so"
         }
@@ -611,50 +611,50 @@ dependencies {
     implementation(libs.mlkit.text.japanese)
     implementation(libs.mlkit.text.korean)
     implementation(libs.mlkit.text.devanagari)
-    
+
     implementation(libs.zxing.core)
-    
+
     // diff
     implementation(libs.java.diff.utils)
-    
+
     // APK解析和修改库
     implementation(libs.android.apksig) // APK签名工具
     implementation(libs.apk.parser) // 用于解析和处理AndroidManifest.xml
     implementation(libs.sable.axml) // 用于Android二进制XML的读写
     implementation(libs.zipalign.java) // 用于处理ZIP文件对齐
-    
+
     // ZIP处理库 - 用于APK解压和重打包
     implementation(libs.commons.compress)
     implementation(libs.commons.io) // 添加Apache Commons IO
-    
+
     // 图片处理库
     implementation(libs.glide) // 用于处理图像
-    
+
     // XML处理
     implementation(libs.androidx.core.ktx)
-    
+
     // libsu - root access library
     implementation("com.github.topjohnwu.libsu:core:6.0.0")
     implementation("com.github.topjohnwu.libsu:service:6.0.0")
     implementation("com.github.topjohnwu.libsu:nio:6.0.0")
-    
+
     // Add missing SVG support
     implementation(libs.androidsvg)
-    
+
     // Add missing GIF support for Markwon
     implementation(libs.android.gif)
-    
+
     // Image Cropper for background image cropping
     implementation(libs.image.cropper)
-    
+
     // ExoPlayer for video background
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.core)
     implementation(libs.exoplayer.ui)
-    
+
     // Material 3 Window Size Class
     implementation(libs.material3.window)
-    
+
     // Window metrics library for foldables and adaptive layouts
     implementation(libs.window)
     implementation(libs.androidx.webkit)
@@ -663,29 +663,31 @@ dependencies {
     implementation(libs.itextg)
     implementation(libs.pdfbox)
     implementation(libs.zip4j)
-    
+
     // 图片加载库
     implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
-    
+
     // LaTeX rendering libraries
     implementation(libs.jlatexmath)
     implementation(libs.renderx) // RenderX library for LaTeX rendering
-    
+
     // Base Android dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    // Material 1.14 no longer brings DocumentFile in transitively.
+    implementation(libs.androidx.documentfile)
     implementation(libs.lifecycle.runtime.ktx)
 
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization)
     implementation(libs.kotlin.reflect)
-    
+
     // UUID dependencies
     implementation(libs.uuid)
-    
+
     // Gson for JSON parsing
     implementation(libs.gson)
 
@@ -698,11 +700,11 @@ dependencies {
     // 向量搜索库 - 轻量级实现，适合Android
     implementation(libs.hnswlib.core)
     implementation(libs.hnswlib.utils)
-    
+
     // 用于向量嵌入的TF Lite (如果需要自定义嵌入)
     implementation(libs.tensorflow.lite)
     implementation(libs.mediapipe.tasks.text)
-    
+
     // ONNX Runtime for Android - 支持更强大的多语言Embedding模型
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.17.1")
 
@@ -738,7 +740,7 @@ dependencies {
 
     // Tasker Plugin Library
     implementation("com.joaomgcd:taskerpluginlibrary:0.4.10")
-    
+
     // WorkManager for scheduled workflows
     implementation(libs.work.runtime.ktx)
 
@@ -776,13 +778,13 @@ dependencies {
     implementation(libs.colorpicker)
     implementation(libs.backdrop)
     implementation(libs.liquid)
-    
+
     // NanoHTTPD for local web server
     implementation(libs.nanohttpd)
 
     // 添加测试依赖
     testImplementation(libs.junit)
-    
+
     // Android测试依赖
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -790,22 +792,22 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.rules)
-    
+
     // 协程测试依赖
     testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.coroutines.test)
-    
+
     // 模拟测试框架 - 保留现有的 mockito 并新增 mockk
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.mockito.android)
-    
+
     // // 新增的测试依赖 - mockk 和 kotlin-test
     // testImplementation(libs.mockk)
     // testImplementation(libs.ktor.server.test.host)
     // testImplementation(libs.kotlinx.coroutines.debug)
     // androidTestImplementation(libs.mockk)
-    
+
     implementation(libs.reorderable)
 
     // Swipe to reveal actions
@@ -817,7 +819,7 @@ dependencies {
 
     implementation(libs.mcp.sdk.client)
     implementation(libs.ktor.client.okhttp)
-    
+
     // Exclude bcprov-jdk15to18 from all configurations to avoid duplicate classes
     configurations.all {
         exclude(group = "org.bouncycastle", module = "bcprov-jdk15to18")
@@ -825,13 +827,13 @@ dependencies {
 
     // Security
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    
+
     // BouncyCastle - explicitly include jdk18on version to avoid conflicts
     implementation("org.bouncycastle:bcprov-jdk18on:1.78")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation(libs.okhttp.logging.interceptor)
 
