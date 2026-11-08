@@ -1,4 +1,4 @@
- [versions]
+[versions]
 agp = "8.13.2"
 kotlin = "2.2.21"
 kotlin-serialization = "2.2.21"
@@ -15,7 +15,7 @@ lifecycle-runtime-ktx = "2.7.0"
 uiGraphicsAndroid = "1.10.4"
 coreKtxVersion = "1.12.0"
 runtimeAndroid = "1.10.4"
-desugar = "2.0.4"
+desugar = "2.1.5"
 mlkit-text = "16.0.0"
 zxing = "3.5.3"
 diff-utils = "4.12"
@@ -58,14 +58,14 @@ mcp-sdk = "0.10.0"
 ktor = "3.2.3"
 jsoup = "1.16.2"
 datastore = "1.0.0"
-poi = "5.2.3"
+poi = "5.5.1"
 colorpicker = "1.0.6"
 backdrop = "1.0.6"
 liquid = "1.1.1"
 nanohttpd = "2.3.1"
 test-runner = "1.5.2"
 test-rules = "1.5.0"
-coroutines = "1.10.2"
+coroutines = "1.11.0"
 coroutines-test = "1.7.3"
 mockito = "5.2.0"
 mockito-kotlin = "6.4.0"
@@ -79,10 +79,10 @@ animationAndroid = "1.10.4"
 uiAndroid = "1.10.4"
 glance = "1.0.0"
 activityKtx = "1.7.1"
- ui = "1.10.4"
- animation = "1.10.4"
+ui = "1.10.4"
+animation = "1.10.4"
 
- [libraries]
+[libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -250,18 +250,18 @@ objectbox-processor = { group = "io.objectbox", name = "objectbox-processor", ve
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
 
- androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
- androidx-animation-android = { group = "androidx.compose.animation", name = "animation-android", version.ref = "animationAndroid" }
- androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
+androidx-animation-android = { group = "androidx.compose.animation", name = "animation-android", version.ref = "animationAndroid" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 
 # Glance (Compose for Widgets)
 glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
 glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
- androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
- androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
- androidx-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+androidx-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 
- [plugins]
+[plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
