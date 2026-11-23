@@ -12,7 +12,7 @@
         "@types/node": "^22.20.5",
         "copy-paste": "^2.2.0",
         "esbuild": "^0.28.2",
-        "object-sizeof": "^2.6.1",
+        "object-sizeof": "^3.0.1",
         "typescript": "5.9.3"
     },
     "name": "operit",
